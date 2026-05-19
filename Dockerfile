@@ -4,7 +4,7 @@ FROM node:20-slim
 # Diretorio de trabalho
 WORKDIR /app
 
-# Copiar arquivos de dependencia
+# Copiar arquivos de dependencia (ajustado para contexto de subpasta se necessario)
 COPY package*.json ./
 
 # Instalar dependencias
@@ -19,5 +19,11 @@ RUN npm run build
 # Expor a porta que o Express usa
 EXPOSE 3001
 
+# Variável de ambiente para garantir produção
+ENV NODE_ENV=production
+
 # Comando para rodar a aplicação
 CMD ["npm", "start"]
+
+
+
