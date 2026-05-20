@@ -12,21 +12,35 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
   'https://reobote-mapadaconquistafront.to0i0r.easypanel.host',
-];
+  'https://reobote-mapadaconquistback.to0i0r.easypanel.host',
+  process.env.ALLOWED_ORIGIN,
+].filter(Boolean) as string[];
 
 const corsOptions: cors.CorsOptions = {
   origin: (origin, callback) => {
+    console.log(`[CORS] Verificando origem:`, origin);
+    console.log(`[CORS] Origens permitidas:`, allowedOrigins);
+    
     // Permite requisições sem Origin explícito (health checks, Postman, curl)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
       return;
     }
 
+    // Em desenvolvimento, permite qualquer origem (opcional)
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`[CORS] Permitindo origem não autorizada em ambiente de desenvolvimento: ${origin}`);
+      callback(null, true);
+      return;
+    }
+
+    console.error(`[CORS] Origem não permitida: ${origin}`);
     callback(new Error(`Origem não permitida por CORS: ${origin}`));
   },
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 204,
+  credentials: true,
 };
 
 // Middlewares
