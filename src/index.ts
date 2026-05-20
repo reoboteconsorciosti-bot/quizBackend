@@ -7,7 +7,7 @@ import { processQuizWebhook } from './controllers/webhookController';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 3001;
 
 // Middlewares
 app.use(cors()); // Habilita CORS para o frontend Vite
@@ -28,10 +28,10 @@ app.get('/health', (req, res) => {
 });
 
 // Iniciar servidor
-app.listen(PORT, () => {
+app.listen(Number(PORT), "0.0.0.0", () => {
   console.log(`
   🚀 Servidor Backend Reobote Quiz rodando!
-  📡 Endpoint: http://localhost:${PORT}/api/webhook
+  📡 Endpoint: http://0.0.0.0:${PORT}/api/webhook
   🛠️  Porta: ${PORT}
   `);
 });
