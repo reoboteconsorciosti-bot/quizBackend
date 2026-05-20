@@ -8,9 +8,30 @@ dotenv.config();
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3001;
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'https://reobote-mapadaconquistafront.to0i0r.easypanel.host',
+];
+
+const corsOptions: cors.CorsOptions = {
+  origin: (origin, callback) => {
+    // Permite requisições sem Origin explícito (health checks, Postman, curl)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error(`Origem não permitida por CORS: ${origin}`));
+  },
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 204,
+};
 
 // Middlewares
-app.use(cors()); // Habilita CORS para o frontend Vite
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.json()); // Parser para JSON
 
 // Logs de requisição simples
