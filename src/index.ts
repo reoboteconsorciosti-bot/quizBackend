@@ -20,10 +20,27 @@ app.use((req, res, next) => {
 });
 
 // Rotas
+app.get('/', (_req, res) => {
+  res.status(200).json({
+    ok: true,
+    service: 'reobote-quiz-backend',
+    message: 'Backend online',
+    healthcheck: '/health',
+    webhook: '/api/webhook',
+  });
+});
+
 app.post('/api/webhook', processQuizWebhook);
 
+app.get('/api/webhook', (_req, res) => {
+  res.status(200).json({
+    ok: true,
+    message: 'Use POST /api/webhook para enviar os dados do quiz',
+  });
+});
+
 // Health check
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.status(200).send('Backend Reobote Quiz is running');
 });
 
