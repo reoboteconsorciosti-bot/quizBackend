@@ -6,6 +6,7 @@ export interface QuizPayload {
   perfil?: PerfilQuiz;
   perfil_nome?: string;
   consultor: string;
+  objetivo?: string;
   tag: string;
 }
 
@@ -17,6 +18,7 @@ export interface BotConversaPayload {
     perfil_quiz?: PerfilQuiz;
     perfil_nome?: string;
     consultor_selecionado: string;
+    objetivo?: string;
   };
   tags: string[];
 }

@@ -13,6 +13,7 @@ export const sendToBotConversa = async (data: QuizPayload) => {
     }
 
     console.log(`[BotConversa] Iniciando integração para: ${data.nome} (${data.telefone})`);
+    console.log(`[BotConversa] Objetivo recebido:`, data.objetivo);
 
     const payload = {
       nome: data.nome,
@@ -20,6 +21,7 @@ export const sendToBotConversa = async (data: QuizPayload) => {
       perfil: data.perfil,
       perfil_nome: data.perfil_nome,
       consultor: data.consultor,
+      objetivo: data.objetivo,
       tag: data.tag || 'quiz'
     };
 
